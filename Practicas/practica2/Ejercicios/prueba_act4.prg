@@ -1,0 +1,9 @@
+0 0002
+@
+2
+@
+CRA
+ADD 0
+DJNZ 6
+JMP 4
+HALT
