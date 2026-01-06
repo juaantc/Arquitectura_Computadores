@@ -1,0 +1,41 @@
+Variables: $s0 = dir V[0], $s1 = a, $s2 = b, $s3 = c, $s4 = n, $t0 = i
+
+add $s1, $zero, $zero	# a = 0
+add $t0, $zero, $zero	# i = 0
+addi $s2, $zero, 1	# b = 1
+addi $t7, $zero, 1	# t7 = 1 (constante para comparar)
+
+loop:
+	slt $t1, $t0, $s4	# t1 = 1 si i < n sino t1 = 0
+	beq $t1, $zero, end-loop
+
+	sll $t2, $t0, 2		# t2 = 4i
+	add $t3, $t2, $s0	# t3 = 4i + dir V[0] = dir V[i]
+
+	beq $t0, $zero, es_0
+
+	beq $t0, $t7, es_1
+
+	add $s3, $s1, $s2	# c = a + b
+	add $t5, $zero, $s3	# $t5 = valor c (Usamos $t5 para no perder la dirección en $t3)
+	add $s1, $zero, $s2	# a = b
+	add $s2, $zero, $s3	# b = c
+
+	j guardar
+
+	es_0:
+		add $t5, $zero, $zero	# $t5 = 0
+		j guardar
+	es_1:
+		addi $t5, $zero, 1	# $t5 = 1
+		
+	guardar:
+		sw $t5, 0($t3)		# Escribimos el valor ($t5) en la dirección ($t3)
+		addi $t0, $t0, 1	# i++
+		j loop
+
+end-loop: FIN
+
+
+
+

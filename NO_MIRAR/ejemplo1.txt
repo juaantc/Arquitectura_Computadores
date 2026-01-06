@@ -1,0 +1,28 @@
+Variables: $s0 = i, $s1 = dir A[0], $s2 = dir B[0], $s3 = dir C[0]
+
+add $s0, $zero, $zero # i=0
+
+loop:	slti $t0, $s0, 25 # t0=1 si i<25 sino t0=0
+	beq $t0, $zero, end-loop
+
+	sll $t1, $s0, 2 # t1=4i
+	add $t2, $t1, $s1 # t2 = 4i + dir A[0] = dir A[i]
+	lw $t3, 0($t2) # t3 = A[i]
+	add $t4, $t1, $s2 # t4 = 4i + dir B[0] = dir B[i]
+	lw $t5, 0($t4) # t5 = B[i]
+	add $t6, $t1, $s3 # t6 = 4i + dir C[0] = dir C[i]
+
+	blez $t3, L1 # A[i] <= 0 salto a L1
+	add $t7, $zero, $t5 # t7=B[i]
+	j UNION
+
+	L1:
+		sub $t7, $zero, $t5 # t7=-B[i]
+
+	UNION: 
+		sw $t7, 0($t6)
+		addi $s0, $s0, 1 # i++
+		j loop
+
+	end-loop: FIN
+	

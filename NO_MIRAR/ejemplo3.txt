@@ -1,0 +1,43 @@
+Variables: $s0 = i, $s1 = dir A[0], $s2 = dir B[0], $s3 = dir C[0]
+
+add $s0, $zero, $zero	# i = 0
+
+loop:
+	slti $t0, $s0, 20	# t0 = 1 si i<20 sino t0 = 0
+	beq $t0, $zero, end-loop
+	
+	sll $t1, $s0, 2	# t1 = 4i
+
+	add $t2, $t1, $s1	# t2 = dir A[0] + 4i = dir A[i]
+	lw $a0, 0($t2)	# a0 = A[i]
+
+	add $t4, $t1, $s2	# t4 = dir B[0] + 4i = dir B[i]
+	lw $a1, 0($t4)	# a1 = B[i]
+
+	add $t6, $t1, $s3	# t6 = dir C[0] + 4i = dir C[i]
+
+	jal máximo	#La función leerá $a0 y $a1
+	
+	sw $v0, 0($t6)	# C[i] = máximo(A[i], B[i])
+			# El resultado viene en $v0
+
+	addi $s0, $s0, 1	# i++
+	j loop
+
+
+end-loop: FIN
+
+
+maximo:
+	slt $t3, $a0, $a1	#t3 = 1 si A[i]<B[i] sino t3 = 0
+	beq $t3, $zero, es_A
+
+	add $v0, $a1, $zero
+	jr $ra
+	
+	es_A:	add $v0, $a0, $zero
+		jr $ra
+
+
+
+	

@@ -1,0 +1,10 @@
+0 0001
+@
+2
+@
+CRA
+ADD 0
+JMPR 3
+ADD 0
+ADD 0
+HALT

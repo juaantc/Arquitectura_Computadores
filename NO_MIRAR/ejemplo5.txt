@@ -1,0 +1,28 @@
+Variables: $s0 = dir A[0], $s1 = dir B[0], $t0 = i
+
+add $t0, $zero, $zero	# i = 0
+
+loop:
+	slti $t1, $t0, 20	# t1 = 1 si i<20 sino t1 = 0
+	beq $t1, $zero, end-loop
+
+	sll $t2, $t0, 2		# t2 = 4i
+
+	add $t3, $t2, $s0	# t3 = 4i + dir A[0] = dir A[i]
+	lw $t4, 0($t3)		# t4 = A[i]
+
+	add $t5, $t2, $s1	# t5 = 4i + dir B[0] = dir B[i]
+
+	bgtz $t4, es_mayor	# A[i] > 0
+	add $t6, $zero, $zero	# B[i] = 0
+	j guardar
+
+	es_mayor:
+			addi $t6, $zero, 1	# B[i] = 1
+	
+	guardar:
+			sw $t6, 0($t5)
+			addi $t0, $t0, 1	# i++
+			j loop
+
+end-loop: FIN
